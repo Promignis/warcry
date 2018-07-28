@@ -1,0 +1,133 @@
+fireColor = rgb(255,80,0)
+fireColorT = rgba(255,80,0,0)
+dur = 1s
+blur = 0.05em
+fireRad = 1em
+parts = 100
+partSize = 5.5em
+
+random(min,max)
+  return floor(math(0, 'random')*(max - min + 1) + min)
+
+*, *:before, *:after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+html, body {
+	width: 100%;
+	height: 100%;
+}
+body {
+	background-color #4B0082
+	display flex
+	flex-direction column
+	justify-content center
+	align-items center
+}
+
+.hero-container
+	color white
+	font-family 'Lato', sans-serif
+	display flex
+	margin-top 20px
+	flex-direction column
+	justify-content center
+	height 250px
+
+.quote-text
+	font-size 32px
+	font-weight 300
+	text-align center
+
+.quote-source
+	margin-top 20px
+	font-size 16px
+	font-weight 300
+	text-align center
+
+.promignis-text
+	font-size 24px
+	font-weight 400
+	text-align center
+
+.promignis-days
+	font-size 160px
+	text-align center
+
+
+.fire {
+	font-size: 20px;
+	filter: blur(blur);
+	-webkit-filter: blur(blur);
+	position: relative;
+	width: 10em;
+	height: 12em;
+}
+.particle {
+	animation: rise dur ease-in infinite;
+	background-image: radial-gradient(fireColor 20%,fireColorT 70%);
+	border-radius: 50%;
+	mix-blend-mode: screen;
+	opacity: 0;
+	position: absolute;
+	bottom: 0;
+	width: partSize;
+	height: partSize;
+	// spread particles out in time and x-position to get desired effect
+	for p in (1..parts) {
+		&:nth-of-type({p}) {
+			animation-delay dur * (random(0, 100) / 100)
+			left "calc((100% - (%s)) * (%s - 1)/%s)" % (partSize p parts)
+		}
+	}
+}
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(0) scale(1);
+	}
+	25% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-10em) scale(0);
+	}
+}
+
+// checkbox stuff
+
+.onoffswitch {
+	margin-top: 40px;
+    position: relative; width: 50px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    display: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    height: 20px; padding: 0; line-height: 20px;
+    border: 2px solid #E3E3E3; border-radius: 20px;
+    background-color: #FFFFFF;
+    transition: background-color 0.3s ease-in;
+}
+.onoffswitch-label:before {
+    content: "";
+    display: block; width: 20px; margin: 0px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 30px;
+    border: 2px solid #E3E3E3; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+    background-color: #ff5555;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+   border-color: #ff5555;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+    right: 0px; 
+}
