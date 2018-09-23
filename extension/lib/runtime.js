@@ -36,7 +36,7 @@ _runtime.addComponent = (componentObj) => {
 }
 
 _runtime.api = (method,  url,  body, headers) => {
-  let httpRequest = ajax()
+  let httpRequest = getHttpRequest()
 
   if(method == "GET") {
     url = `${url}?${queryParam(body)}`
@@ -84,7 +84,7 @@ const queryParam = (obj) => {
   return val
 }
 
-const ajax = () => {
+const getHttpRequest = () => {
   let httpRequest
   if(window.XMLHttpRequest) {
     httpRequest = new XMLHttpRequest()

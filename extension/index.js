@@ -24,7 +24,6 @@ function displayQuote() {
         if (response.ok) {
             response.json().then((resp) => {
                 if (!resp.success) return
-                console.log(resp)
                 const quotesLabel = document.querySelector(".quote-text")
                 const sourceLabel = document.querySelector(".quote-source")
                 quotesLabel.innerText = resp.contents.quotes[0].quote
@@ -62,7 +61,6 @@ function init() {
 
     //show quote
     displayQuote()
-    run()
 
     //show days
     displayDaysLeft()
@@ -78,35 +76,6 @@ function init() {
         state = checkbox.checked ? "promignis" : "quote"
         updateState(state)
     })
-}
-
-function run() {
-    const apiKeyView = {view:`<input placeholder='rescuetime api key' id="apiKey" /><button id="fetchBtn">fetch</button>`},
-          rescueTimeKey = "rescuetime_apikey"
-
-
-  if(!_runtime.get(rescueTimeKey)) {
-    _runtime.addComponent(apiKeyView)
-    document.getElementById("fetchBtn").addEventListener("click", (event) => {
-      rescueTimeFlow(document.getElementById("apiKey").value)
-    })
-  } else {
-
-  }
-
-  const rescueTimeFlow = (apiKey) => {
-    const config = _runtime.get("config")
-    const headers = {}
-    headers["Access-Control-Allow-Headers"] = "*"
-    if(apiKey) {
-        _runtime.set(apiKey)
-        _runtime.api("GET", config.rescueTime.dailySummary, {key: apiKey}, headers).then(apiResp => {
-          console.log(apiResp)
-        })
-    } else {
-      throw new Error("Invalid Api Key")
-    }
-  }
 }
 
 window.addEventListener("load", () => {
