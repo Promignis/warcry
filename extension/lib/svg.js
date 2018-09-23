@@ -18,18 +18,3 @@ const svgDom = (svg) => {
 }
 
 const svg = (type, props, children) => children? {type, props, children} : {type, props}
-
-let e = svgDom(
-  svg("svg", {}, [
-    svg("circle", {cx: 10, cy: 10, r: 10}),
-    svg("rect", {x: 10, y: 10, width: 100, height: 100})
-  ])
-)
-
-window.addEventListener("load", () => {
-  _runtime.addComponent({view: e})
-})
-
-console.log(e)
-
-

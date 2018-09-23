@@ -43,7 +43,7 @@ _runtime.api = (method,  url,  body, headers) => {
 
     httpRequest.open(method, url, true)
     if(headers) {
-      Object.keys(headers).map(header => {
+      Object.keys(headers).forEach(header => {
         httpRequest.setRequestHeader(header, headers[header])
       })
     }
@@ -67,6 +67,7 @@ _runtime.api = (method,  url,  body, headers) => {
             }
           }
         } catch(e) {
+          console.error(e)
           throw new Error("Error ", e.description)
         }
       }
@@ -93,3 +94,18 @@ const getHttpRequest = () => {
   }
   return httpRequest
 }
+
+_runtime.on = (eventName, cb) => {
+  // not stored in localstorage as function stringified won't work
+  // might shift from this is storage.sync supports it
+  const storedEventName = "event_" + eventName
+
+  _runtime.fnMap = _runtime.fnMap || new Map()
+
+  const eventHandlers = _runtime.fnMap.get(storedEventName) || []
+
+  _runtime.fnMap.set(storedEventName, eventHandlers.concat(cb))
+}
+
+// null check
+_runtime.trigger = (eventName, value) => _runtime.fnMap.get("event_" + eventName).map(cb => cb({value}))
